@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Subscription</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        body { font-family: Arial; text-align: center; margin-top: 50px; }
+        .subscribe-button {
+            padding: 10px 20px;
+            background-color: #6772e5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Premium Subscription</h1>
+    <p>$9.99/month</p>
+    <button id="checkout-button" class="subscribe-button">Subscribe Now</button>
+
+    <script>
+        const stripe = Stripe("pk_live_51QnhtqKnlWeilzhkw7ir4huOGj5uG7gTCRAJQ4a8y0XGm0ojqU9yjkTOtSCn83ducX7HH3zTYkW1xthyBavNMdFu00J9bfQ25I");
+        const priceId = "price_1QoDYAKnlWeilzhknMHDHm8f";
+        document.getElementById("checkout-button").addEventListener("click", () => {
+            stripe.redirectToCheckout({
+                lineItems: [{ price: priceId, quantity: 1 }],
+                mode: "subscription"
+            }).then(result => { if (result.error) alert("Error: " + result.error.message); });
+        });
+    </script>
+</body>
+</html>
